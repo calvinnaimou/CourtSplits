@@ -23,3 +23,7 @@ data/processed/*.parquet
 
 # OS
 .DS_Store
+
+# Claude Code local settings - machine-specific tool permissions, not
+# project config, shouldn't be shared across machines/collaborators.
+.claude/
