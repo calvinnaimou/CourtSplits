@@ -1,0 +1,25 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Node / frontend
+frontend/node_modules/
+frontend/dist/
+
+# Env files (may hold environment-specific/deploy secrets)
+.env
+.env.local
+.env.*.local
+
+# Data - the raw Excel is paid BigDataBall content and the .parquet files
+# are generated from it, so neither belongs in git; regenerate the latter
+# via scripts/preprocess.py after pulling. NBA_Player_Positions.xlsx in
+# data/processed/ is NOT generated (it's a manual Basketball-Reference
+# export, see CLAUDE.md) and is deliberately not covered by this pattern.
+data/raw/*
+data/processed/*.parquet
+
+# OS
+.DS_Store
