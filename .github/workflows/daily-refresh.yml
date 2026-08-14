@@ -1,0 +1,49 @@
+# Pulls the latest BigDataBall export for the live season and loads it into
+# Postgres. NOT ready to run yet -- needs these repo secrets configured once
+# the 2026-27 season starts and the Google Drive sync exists:
+#   DATABASE_URL              - the Render Postgres external connection string
+#   GDRIVE_SERVICE_ACCOUNT_JSON - see scripts/fetch_from_drive.py's docstring
+#   GDRIVE_FOLDER_ID             - see scripts/fetch_from_drive.py's docstring
+#
+# The --player-sheet/--team-sheet names below are guessed by pattern from
+# this season's sheet names (NBA-2025-26-PLAYER/TEAM) -- confirm the real
+# names in the first live workbook before trusting this unattended.
+name: Daily live data refresh
+
+on:
+  schedule:
+    # 10:30 UTC = 6:30am EDT / 5:30am EST -- BigDataBall syncs ~5am ET, this
+    # gives an hour of buffer on either side of the DST shift.
+    - cron: "30 10 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - run: pip install -r requirements.txt google-api-python-client google-auth
+
+      - name: Fetch latest player workbook from Drive
+        env:
+          GDRIVE_SERVICE_ACCOUNT_JSON: ${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
+          GDRIVE_FOLDER_ID: ${{ secrets.GDRIVE_FOLDER_ID }}
+        run: python scripts/fetch_from_drive.py PLAYER data/live/player.xlsx
+
+      - name: Fetch latest team workbook from Drive
+        env:
+          GDRIVE_SERVICE_ACCOUNT_JSON: ${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
+          GDRIVE_FOLDER_ID: ${{ secrets.GDRIVE_FOLDER_ID }}
+        run: python scripts/fetch_from_drive.py TEAM data/live/team.xlsx
+
+      - name: Load into Postgres
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          python scripts/ingest_live_data.py data/live/player.xlsx data/live/team.xlsx \
+            --player-sheet "NBA-2026-27-PLAYER" --team-sheet "NBA-2026-27-TEAM"

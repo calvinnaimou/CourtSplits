@@ -163,8 +163,8 @@ def team_rest_days_bucket(gap: pd.Series) -> pd.Series:
     return bucket.replace({"0": "B2B", "3": "3+"})
 
 
-def preprocess_player_boxscore() -> pd.DataFrame:
-    df = pd.read_excel(PLAYER_FILE, sheet_name="NBA-2025-26-PLAYER")
+def preprocess_player_boxscore(player_file: Path = PLAYER_FILE, sheet_name: str = "NBA-2025-26-PLAYER") -> pd.DataFrame:
+    df = pd.read_excel(player_file, sheet_name=sheet_name)
     df.columns = clean_column_names(df.columns)
 
     df = df.rename(columns={
@@ -219,8 +219,8 @@ def preprocess_player_boxscore() -> pd.DataFrame:
     return df
 
 
-def preprocess_player_dnp() -> pd.DataFrame:
-    df = pd.read_excel(PLAYER_FILE, sheet_name="DNP-DND-NWT")
+def preprocess_player_dnp(player_file: Path = PLAYER_FILE, sheet_name: str = "DNP-DND-NWT") -> pd.DataFrame:
+    df = pd.read_excel(player_file, sheet_name=sheet_name)
     df.columns = clean_column_names(df.columns)
     df = df.rename(columns={
         "GAME DATE": "date",
@@ -235,8 +235,8 @@ def preprocess_player_dnp() -> pd.DataFrame:
     return df.sort_values(["player_id", "date"]).reset_index(drop=True)
 
 
-def preprocess_team_boxscore() -> pd.DataFrame:
-    df = pd.read_excel(TEAM_FILE, sheet_name="NBA-2025-26-TEAM")
+def preprocess_team_boxscore(team_file: Path = TEAM_FILE, sheet_name: str = "NBA-2025-26-TEAM") -> pd.DataFrame:
+    df = pd.read_excel(team_file, sheet_name=sheet_name)
     df.columns = clean_column_names(df.columns)
 
     # The 5 starting-lineup names live in "STARTING LINEUPS" + 4 unnamed
