@@ -13,13 +13,17 @@ frontend/dist/
 .env.local
 .env.*.local
 
-# Data - the raw Excel is paid BigDataBall content and the .parquet files
-# are generated from it, so neither belongs in git; regenerate the latter
-# via scripts/preprocess.py after pulling. NBA_Player_Positions.xlsx in
-# data/processed/ is NOT generated (it's a manual Basketball-Reference
-# export, see CLAUDE.md) and is deliberately not covered by this pattern.
+# Data - the raw Excel is paid BigDataBall content and doesn't belong in
+# git. The processed parquet files under data/processed/ ARE committed on
+# purpose (see CLAUDE.md) -- the 2025-26 season is finished/historical and
+# Render has no other way to get that data without them being in the repo.
+# Live 2026-27 season data goes through Postgres instead (engine/live_db.py),
+# not another parquet file, so this won't need revisiting each season.
 data/raw/*
-data/processed/*.parquet
+
+# Transient download destination for the daily live-data ingestion script
+# (scripts/ingest_live_data.py) -- never meant to be committed.
+data/live/
 
 # OS
 .DS_Store
