@@ -18,7 +18,7 @@ function App() {
 
   return (
     <>
-      <img src="/CourtSplitzLogo.png" alt="courtSplitz" className="app-logo" />
+      <img src="/courtsplitslogo.png" alt="courtSplitz" className="app-logo" />
       {showTabs && (
         <div className="season-toggle" style={{ padding: "16px 24px 0" }}>
           <button
