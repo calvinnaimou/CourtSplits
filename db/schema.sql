@@ -137,3 +137,15 @@ CREATE TABLE IF NOT EXISTS team_boxscore (
     covered_spread_opening BOOLEAN,
     PRIMARY KEY (game_id, team)
 );
+
+-- Anonymous query/visitor counts -- see engine/analytics.py. A visitor is
+-- approximated by a salted hash of their IP, never the raw address itself.
+CREATE TABLE IF NOT EXISTS request_log (
+    id BIGSERIAL PRIMARY KEY,
+    occurred_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    endpoint TEXT NOT NULL,
+    visitor_hash TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS request_log_occurred_at_idx ON request_log (occurred_at);
+CREATE INDEX IF NOT EXISTS request_log_visitor_hash_idx ON request_log (visitor_hash);

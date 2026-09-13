@@ -4,6 +4,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from engine.analytics import log_query
 from engine.data import player_boxscore, team_boxscore, teams
 from engine.game_detail import game_detail
 from engine.query import (
@@ -95,7 +96,8 @@ def list_positions() -> list[str]:
 
 
 @app.post("/players/query")
-def player_query(req: PlayerQueryRequest) -> dict:
+def player_query(req: PlayerQueryRequest, request: Request) -> dict:
+    log_query(request, "players/query")
     return query_player(
         player_boxscore(),
         player_name=req.player_name,
@@ -147,7 +149,8 @@ def list_team_rest_days() -> list[str]:
 
 
 @app.post("/teams/query")
-def team_query(req: TeamQueryRequest) -> dict:
+def team_query(req: TeamQueryRequest, request: Request) -> dict:
+    log_query(request, "teams/query")
     return query_team(
         team_boxscore(),
         team_name=req.team_name,
