@@ -6,8 +6,8 @@ CourtSplits is an NBA statistical trend analysis web app that searches by player
 ![CourtSplits team search](docs/screenshots/CourtSplitsTeamDemo.png)
 
 ## Features
--Search by player or by team, with configurable filters: opponent, home/away, position, date range, rest days, back to back, and season type<br>
--Numeric threshold conditions (over, under, equals) on any stat, with a global inclusive/strict toggle<br>
+-Search by player or by team, with configurable filters: opponent, home/away, position, date range, rest days, back-to-back, season type, etc<br>
+-Numeric threshold conditions(over, under, equals) on any stat, with a global inclusive/strict toggle<br>
 -Historical occurrence rate results: hit count, percentage, and full sample size, always paginated<br>
 -Per-game drill-down with a full box score for both teams, every player, and DNPs with real reasons<br>
 -Real historical odds data per game: spread, total, moneyline, and half-time lines, with the winning side highlighted<br>
@@ -60,7 +60,7 @@ The current, in-progress season works differently. A Postgres database holds row
 On top of that sits `engine/query.py`: pure functions that take a DataFrame and a bag of filter parameters and return a plain dict, with no HTTP, no database, and no side effects. That design is what makes the whole engine straightforward to unit test. FastAPI (`api/main.py`) is a thin routing and validation layer over those functions, and the React frontend consumes the resulting JSON with no router library at all, since view switching is just local `useState` in `App.tsx`.
 
 ## What I Learned
--Designing around Postgres possibly not being configured at all: the live-season feature and the analytics logging both had to behave exactly like the old Parquet-only app when `DATABASE_URL` is unset, and swallow any connection failure rather than letting a logging hiccup turn a successful request into a 500<br>
+-Designing around Postgres possibly not being configured at all: the live-season feature and the analytics logging both had to behave exactly like the old Parquet-only app when `DATABASE_URL` is unset, and swallow any connection failure rather than letting a logging error turn a successful request into a 500<br>
 -Running two caching strategies side by side: `lru_cache` for frozen historical seasons that never change, and a small hand-rolled TTL cache for the live season that refreshes daily, plus getting dtype handling right so a Postgres row and a Parquet row could be concatenated without pandas silently upcasting a column<br>
 -Anonymizing usage data without accounts: hashing each visitor's IP with a private, server-side salt instead of storing raw IPs, since IPv4 space is small enough to brute-force a lookup table against an unsalted hash<br>
 -Treating "the raw data says X" as a hypothesis rather than a fact: a schedule-context tag from the data provider looked like a rest-day count but was not, and the mismatch was only caught by spot-checking real games against an independent source
@@ -68,7 +68,5 @@ On top of that sits `engine/query.py`: pure functions that take a DataFrame and 
 ## Future Improvements
 -Automatically disable or remove filter options that become redundant or impossible once another filter is already selected, instead of letting a search submit a combination that can never match anything<br>
 -Source additional historical betting line data, such as player prop lines, beyond the current spread, total, and moneyline<br>
--Finish and verify the Google Drive integration for fully automated daily live-season ingestion<br>
 -Move live-season ingestion from a full truncate-and-reload to an incremental upsert<br>
--Surface the anonymous usage analytics somewhere, since it is currently write-only<br>
 -Add an in-app help page for a couple of known UX rough edges, such as how period-based team filters interact with the full-game total field
