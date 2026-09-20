@@ -1,13 +1,13 @@
-# courtSplitz
-courtSplitz is an NBA statistical trend analysis web app that searches by player or team, applies filters and stat thresholds, and reports how often those thresholds have actually hit across the season, backed by full box scores and real historical betting lines for every game. Built as an analytics tool, not a bet tracker.
+# CourtSplits
+CourtSplits is an NBA statistical trend analysis web app that searches by player or team, applies filters and stat thresholds, and reports how often those thresholds have actually hit across the season, backed by full box scores and real historical betting lines for every game. Built as an analytics tool, not a bet tracker.
 
 ## Demo
-![courtSplitz player search](docs/screenshots/CourtSplitsPlayerDemo.png)<br>
-![courtSplitz team search](docs/screenshots/CourtSplitsTeamDemo.png)
+![CourtSplits player search](docs/screenshots/CourtSplitsPlayerDemo.png)<br>
+![CourtSplits team search](docs/screenshots/CourtSplitsTeamDemo.png)
 
 ## Features
 -Search by player or by team, with configurable filters: opponent, home/away, position, date range, rest days, back to back, and season type<br>
--Numeric threshold conditions(over, under, equals) on any stat, with a global inclusive/strict toggle<br>
+-Numeric threshold conditions (over, under, equals) on any stat, with a global inclusive/strict toggle<br>
 -Historical occurrence rate results: hit count, percentage, and full sample size, always paginated<br>
 -Per-game drill-down with a full box score for both teams, every player, and DNPs with real reasons<br>
 -Real historical odds data per game: spread, total, moneyline, and half-time lines, with the winning side highlighted<br>
