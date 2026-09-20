@@ -2,8 +2,8 @@
 CourtSplits is an NBA stats app where you search by player or team, set filters and stat thresholds, and see how often those thresholds actually hit over the season, with full box scores and real historical betting lines for every game. It's built for analytics, not as a bet tracker.
 
 ## Demo
-![CourtSplits player search](docs/screenshots/CourtSplitsPlayerDemo.png)<br>
-![CourtSplits team search](docs/screenshots/CourtSplitsTeamDemo.png)
+![CourtSplits team search](docs/screenshots/CourtSplitsTeamDemo.png)<br>
+![CourtSplits player search](docs/screenshots/CourtSplitsPlayerDemo.png)
 
 ## Features
 -Search by player or team, with filters like opponent, home/away, position, date range, rest days, back-to-back, season type, and more<br>
